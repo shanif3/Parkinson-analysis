@@ -1,63 +1,43 @@
 import pandas as pd
 import matplotlib.pyplot as plt
-from sklearn.linear_model import LogisticRegression
-from sklearn.metrics import roc_curve, auc
 import matplotlib as mpl
+from sklearn.linear_model import LogisticRegression
+from sklearn.model_selection import StratifiedKFold, LeaveOneOut
+from sklearn.metrics import roc_curve, auc
 
 
-def plot_roc_curve(folder, scores, tags):
-    """
-    Plot ROC curve
-    :param folder: The folder to save the roc curve
-    :param scores: The scores of the model
-    :param tags: The tags of the model
-    """
 
+def plot_roc(folder, pred_probabilities, true_labels):
     name = folder.split("/")[-1]
-    fpr, tpr, thresholds = roc_curve(tags, scores)
-
-    # Compute AUC (Area Under the Curve)
+    fpr, tpr, _ = roc_curve(true_labels, pred_probabilities)
     roc_auc = auc(fpr, tpr)
 
-    # Plot ROC curve
-    plt.figure(figsize=(4, 4))
-    plt.plot(fpr, tpr, label='ROC curve (AUC = %0.2f)' % roc_auc)
-    plt.plot([0, 1], [0, 1], 'k--')  # Diagonal line (random guessing)
-    plt.xlim([0.0, 1.0])
-    plt.ylim([0.0, 1.05])
-    plt.xlabel('False Positive Rate (FPR)', fontsize=15)
-    plt.ylabel('True Positive Rate (TPR)', fontsize=15)
+    plt.figure()
+    plt.plot(fpr, tpr, color='darkorange', lw=2, label=f'ROC curve (AUC = {roc_auc:.2f})')
+    plt.plot([0, 1], [0, 1], color='navy', lw=2, linestyle='--')
+    plt.xlabel('False Positive Rate')
+    plt.ylabel('True Positive Rate')
     plt.title(f"{name}", fontsize=15, fontweight="bold")
-    plt.xticks(fontsize=15)
-    plt.yticks(fontsize=15)
-    plt.legend(loc="lower right")
-    plt.tight_layout()
-    plt.savefig(f"{folder}/roc_curve.png")
-    plt.show()
+    plt.legend(loc='lower right')
+    plt.savefig(f'{folder}/roc_curve_update.png')
 
 
-def save_coefficients_to_csv(model, feature_names, filename):
+def save_coefficients_to_csv(mean_coefficients, feature_names, filename):
     """
     Save coefficients to a CSV file
-    :param model: The model
+    :param mean_coefficients: Averaged coefficients from the model
     :param feature_names: The feature names
     :param filename: The filename
     """
-    # Extract coefficients and intercept
-    coefficients = model.coef_[0]
-    intercept = model.intercept_[0]
-
     df = pd.DataFrame({
         'Name': feature_names,
-        'Coefficient': coefficients
+        'Coefficient': mean_coefficients
     })
-    intercept_row = pd.DataFrame({'Name': ['Intercept'], 'Coefficient': [intercept]})
-    df = pd.concat([intercept_row, df], ignore_index=True)
     df.to_csv(filename, index=False)
 
 
 def main():
-    folder = "/home/shanif3/Codes/MIPMLP/data_to_compare/Parkinson/Parkinson-git/Validation/16S"
+    folder = "/home/shanif3/Codes/MIPMLP/data_to_compare/Parkinson/Parkinson-git/84_paired"
     mpl.rc('font', family='Times New Roman')
 
     s16 = pd.read_csv(f"{folder}/processed_afterMIPMLP.csv", index_col=0)
@@ -70,10 +50,7 @@ def main():
     meta = meta.dropna()
     s16 = s16.loc[meta.index]
 
-    meta = meta["Tag"]
-
-    tag = meta
-
+    tag = meta["Tag"]
     substrings = [
         "f__Lachnospiraceae;g__Roseburia",
         "f__Bifidobacteriaceae;g__Bifidobacterium",
@@ -89,17 +66,35 @@ def main():
         tag = tag.astype(float)
         to_learn = to_learn.loc[common]
 
-        # Create logistic regression model
-        model = LogisticRegression()
+        skf = StratifiedKFold(n_splits=5)
+        model = LogisticRegression(max_iter=10000)
 
-        # Fit the model
-        model.fit(to_learn, tag)
+        true_labels = []
+        pred_probabilities = []
 
-        # Predict probabilities for test set
-        y_scores = model.predict_proba(to_learn)[:, 1]
+        for train_index, test_index in skf.split(to_learn, tag):
+            X_train, y_train = to_learn.iloc[train_index], tag.iloc[train_index]
+            X_test, y_test = to_learn.iloc[test_index], tag.iloc[test_index]
 
-        plot_roc_curve(folder, y_scores, tag)
-        save_coefficients_to_csv(model, to_learn.columns, f"{folder}/coefficients.csv")
+            loo = LeaveOneOut()
+
+            for loo_train_index, loo_test_index in loo.split(X_train):
+                X_loo_train, y_loo_train = X_train.iloc[loo_train_index], y_train.iloc[loo_train_index]
+                model.fit(X_loo_train, y_loo_train)
+
+
+
+            model.fit(X_train, y_train)
+            true_labels.extend(y_test)
+            y_scores = model.predict_proba(X_test)[:, 1]
+            pred_probabilities.extend(y_scores)
+
+        mean_coefficients = model.coef_[0]
+        feature_names = to_learn.columns.tolist()
+        save_coefficients_to_csv(mean_coefficients, feature_names, f"{folder}/coefficients.csv")
+        plot_roc(folder,pred_probabilities, true_labels)
+
+
 
     else:
         print("g__Roseburia or g__Bifidobacterium or f__Aspergillaceae not found in the data.")
