@@ -37,7 +37,7 @@ def save_coefficients_to_csv(mean_coefficients, feature_names, filename):
 
 
 def main():
-    folder = "/home/shanif3/Codes/MIPMLP/data_to_compare/Parkinson/Parkinson-git/84_paired"
+    folder = "/home/shanif3/Codes/MIPMLP/data_to_compare/Parkinson/Parkinson-git/Validation/16S"
     mpl.rc('font', family='Times New Roman')
 
     s16 = pd.read_csv(f"{folder}/processed_afterMIPMLP.csv", index_col=0)
