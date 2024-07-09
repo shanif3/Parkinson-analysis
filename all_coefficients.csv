@@ -1,0 +1,21 @@
+Name	64_paired	84_paired	PRJEB14674	PRJEB53403	16S	18S	16S&18S	PRJEB45549
+k__Bacteria;p__Actinobacteria;c__Actinobacteria;o__Bifidobacteriales;f__Bifidobacteriaceae;g__Bifidobacterium_0;s__	1.09038704586528	-0.0119706280215102	0.354751312093493	-0.130490964181122	0.914973737934558		0.803627146293743	
+k__Bacteria;p__Actinobacteria;c__Actinobacteria;o__Bifidobacteriales;f__Bifidobacteriaceae;g__Bifidobacterium;s__adolescentis_0	0.214860007855891	-0.270202925159219		0.132993315521638				
+k__Bacteria;p__Actinobacteria;c__Actinomycetia;o__Bifidobacteriales;f__Bifidobacteriaceae;g__Bifidobacterium;s__Bifidobacterium_longum_0	-0.442916258067515			-0.19051962651357				
+k__Bacteria;p__Actinobacteria;c__Actinomycetia;o__Bifidobacteriales;f__Bifidobacteriaceae;g__Bifidobacterium;s__Bifidobacterium_angulatum_0	0.0250105163163158							
+k__Bacteria;p__Actinobacteria;c__Actinomycetia;o__Bifidobacteriales;f__Bifidobacteriaceae;g__Bifidobacterium;s__Bifidobacterium_bifidum_0			0.706042843073983		-0.0740702866416531		0.185644702076746	
+k__Bacteria;p__Actinobacteria;c__Actinomycetia;o__Bifidobacteriales;f__Bifidobacteriaceae;g__Bifidobacterium;s__Bifidobacterium_dentium_0				0.401806691353408				
+								
+								
+k__Bacteria;p__Firmicutes;c__Clostridia;o__Eubacteriales;f__Lachnospiraceae;g__Roseburia_0;s__	-0.630728819160335	0.260345976636952	-0.224946983149882	-0.528814620323895	0.597209865686581		0.587195021525825	
+k__Bacteria;p__Firmicutes;c__Clostridia;o__Eubacteriales;f__Lachnospiraceae;g__Roseburia;s__Roseburia_faecis_0,	-0.34799903679321	0.200148898084668	0.291228876242112	-0.318947036252182	1.15263679529665		1.22207832002913	
+k__Bacteria;p__Firmicutes;c__Clostridia;o__Eubacteriales;f__Lachnospiraceae;g__Roseburia;s__Roseburia_hominis_0		0.726823468416586		-1.25039928209459				
+k__Bacteria;p__Firmicutes;c__Clostridia;o__Eubacteriales;f__Lachnospiraceae;g__Roseburia;s__Roseburia_intestinalis_0		-1.26334389475643		-0.878179993625016				
+k__Bacteria;p__Firmicutes;c__Clostridia;o__Eubacteriales;f__Lachnospiraceae;g__Roseburia;s__Roseburia_inulinivorans_0		-0.24906688443832	-0.0797867750181003	0.182248416017506				
+k__Bacteria;p__Firmicutes;c__Clostridia;o__Eubacteriales;f__Lachnospiraceae;g__Roseburia;s__Roseburia_sp_AF02_12_0		0.302419275224109		0.202246214167063				
+k__Bacteria;p__Firmicutes;c__Clostridia;o__Eubacteriales;f__Lachnospiraceae;g__Roseburia;s__Roseburia_sp_AM59_24XD_0		1.53485176975115						
+								
+								
+d__Eukaryota;p__Ascomycota;c__Eurotiomycetes;o__Eurotiales;f__Aspergillaceae;g__Aspergillus_0;s__						0.0751360424472299	0.325762711440674	
+d__Eukaryota;p__Ascomycota;c__Eurotiomycetes;o__Eurotiales;f__Aspergillaceae;g__Aspergillus;s__Aspergillus_penicillioides_0						0.103676714982886	0.424199947544182	
+d__Eukaryota;p__Ascomycota;c__Eurotiomycetes;o__Eurotiales;f__Aspergillaceae_0;g__;s__								1.34133844164717
